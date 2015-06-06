@@ -1,0 +1,79 @@
+<!doctype html>
+
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>The HTML5 Herald</title>
+  <!--[if lt IE 9]>
+  <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+  <![endif]-->
+  <style>
+    .hidden{
+      display: none;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="hidden" id="error">
+    it didn't
+  </div>
+  <div class="hidden" id="success">
+    it worked
+  </div>
+
+  <form id="bombForm" action="/">
+    <input required type="tel" name="tel" id="tel">
+    <input required name="tag" id="tag">
+    <button type="submit">bomb `em</button>
+  </form>
+  <script src="/public/js/aws-sdk.min.js"></script>
+
+  <script>
+  AWS.config.update({
+    region: 'us-east-1',
+    accessKeyId: 'AKIAIEKL7NNTYJNR75NA',
+    secretAccessKey: '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'
+  });
+
+  function removeClass( el, className ){
+    if (el.classList)
+      el.classList.remove(className);
+    else
+      el.className = el.className.replace(new RegExp('(^|\\b)' + className.split(' ').join('|') + '(\\b|$)', 'gi'), ' ');
+  };
+
+  function addClass( el, className ){
+    if (el.classList)
+      el.classList.add(className);
+    else
+      el.className += ' ' + className;
+  }
+
+  var number = document.getElementById('tel'),
+    tag = document.getElementById('tag'),
+    successMsg = document.getElementById('success'),
+    errorMsg = document.getElementById('error');
+  function invokeLambda( e ){
+    var lambda = new AWS.Lambda();
+
+    addClass(successMsg, 'hidden');
+    addClass(errorMsg, 'hidden');
+
+    e.preventDefault();
+    lambda.invoke({
+      FunctionName: 'twilio-function-helo',
+      Payload: JSON.stringify({
+        tel: tel.value,
+        tag: tag.value
+      })
+    }, function(err, data){
+      if(err) return removeClass(errorMsg, 'hidden');
+      removeClass(successMsg, 'hidden');
+    });
+  };
+
+  document.getElementById('bombForm').addEventListener('submit', invokeLambda);
+  </script>
+</body>
+</html>

@@ -1,0 +1,24 @@
+{
+  "name": "lambda-twilio",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/chadbaudoin/lambda-twilio.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/chadbaudoin/lambda-twilio/issues"
+  },
+  "homepage": "https://github.com/chadbaudoin/lambda-twilio#readme",
+  "dependencies": {
+    "async": "^1.2.0",
+    "instagram-node": "^0.5.7",
+    "twilio": "^2.2.1"
+  }
+}

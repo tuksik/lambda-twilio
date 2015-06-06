@@ -22,7 +22,7 @@ exports.handler = function(event, context) {
       ig.tag_media_recent(event.tag, done);
     },
     function( medias, pagination, remaining, limit, done ){
-      var mediaImages = medias.slice(0,20).map(function( media ){
+      var mediaImages = medias.slice(0,3).map(function( media ){
         return media.images.low_resolution.url;
       });
       done(null, mediaImages);
