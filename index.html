@@ -7,34 +7,61 @@
   <!--[if lt IE 9]>
   <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
   <![endif]-->
-  <style>
-    .hidden{
-      display: none;
-    }
-  </style>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 </head>
 
 <body>
-  <div class="hidden" id="error">
-    it didn't
-  </div>
-  <div class="hidden" id="success">
-    it worked
-  </div>
 
-  <form id="bombForm" action="/">
-    <input required type="tel" name="tel" id="tel">
-    <input required name="tag" id="tag">
-    <button type="submit">bomb `em</button>
-  </form>
+  <div class="container-fluid">
+    <div class="row-xs-12">
+      <p>This is a demo to display the using AWS Lambda to write a light backend</p>
+      <div class="hidden" id="error">
+        it didn't
+      </div>
+      <div class="hidden" id="success">
+        it worked
+      </div>
+      <form id="bombForm">
+        <div class="form-group">
+          <label for="tel">Phone Number</label>
+          <input required type="tel" name="tel" id="tel" placeholder="5555555555">
+        </div>
+        <div class="form-group">
+          <label for="tag">Instagram Tag</label>
+          <input required name="tag" id="tag" placeholder="e.g. clown">
+        </div>
+        <button type="submit" class="btn btn-default">Submit</button>
+      </form>
+    </div>
+  </div>
+  <script src="/public/js/aws-sdk.min.js"></script>
   <script src="/public/js/aws-sdk.min.js"></script>
 
   <script>
-  AWS.config.update({
-    region: 'us-east-1',
-    accessKeyId: 'AKIAIEKL7NNTYJNR75NA',
-    secretAccessKey: 'PVIUtwnjPqCE1nrtHW5PLj7P51YOWf7IwvgZpHAa'
-  });
+  // The parameters required to intialize the Cognito Credentials object.
+  // If you are authenticating your users through one of the supported
+  // identity providers you should set the Logins object with the provider
+  // tokens. For example:
+  // Logins: {
+  //   graph.facebook.com : facebookResponse.authResponse.accessToken
+  // }
+  var params = {
+      AccountId: "350467602134",
+      RoleArn: "arn:aws:iam::350467602134:role/Cognito_LambdaTwilioAppUnauth_Role",
+      IdentityPoolId: "us-east-1:6fc65068-f95f-4a10-94b2-62f144cf46a5"
+  };
+
+  // set the Amazon Cognito region
+  AWS.config.region = 'us-east-1';
+  // initialize the Credentials object with our parameters
+  AWS.config.credentials = new AWS.CognitoIdentityCredentials(params);
+
+  // AWS.config.update({
+  //   region: 'us-east-1',
+  //   accessKeyId: 'AKIAIEKL7NNTYJNR75NA',
+  //   secretAccessKey: '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'
+  // });
 
   function removeClass( el, className ){
     if (el.classList)
