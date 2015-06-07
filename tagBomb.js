@@ -17,6 +17,11 @@ exports.handler = function(event, context) {
     return context.done(new Error('invalid params'));
   }
 
+  var number = event.tel.match(/\d/gi).join('');
+  if( number.length !== 10 ){
+    return context.done(new Error('invalid number'));
+  }
+
   async.waterfall([
     function( done ){
       ig.tag_media_recent(event.tag, done);
@@ -30,7 +35,7 @@ exports.handler = function(event, context) {
     function( mediaImages, done ){
       async.forEach(mediaImages, function( image, done ){
         twilio.sendMessage({
-          to:'+1' + event.tel.trim(),
+          to:'+1' + number.trim(),
           from: config.twilio['from-number'],
           mediaUrl: image
         }, done)
