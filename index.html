@@ -48,12 +48,6 @@
   // initialize the Credentials object with our parameters
   AWS.config.credentials = new AWS.CognitoIdentityCredentials(params);
 
-  // AWS.config.update({
-  //   region: 'us-east-1',
-  //   accessKeyId: 'AKIAIEKL7NNTYJNR75NA',
-  //   secretAccessKey: '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'
-  // });
-
   function removeClass( el, className ){
     if (el.classList)
       el.classList.remove(className);
